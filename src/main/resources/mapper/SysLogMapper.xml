@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wnn.system.mapper.SysLogMapper">
+  <resultMap id="BaseResultMap" type="com.wnn.system.domain.system.Syslog">
+    <id column="logId" jdbcType="VARCHAR" property="logId" />
+    <result column="userId" jdbcType="VARCHAR" property="userId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="operate" jdbcType="VARCHAR" property="operate" />
+    <result column="result" jdbcType="VARCHAR" property="result" />
+    <result column="ipAddr" jdbcType="VARCHAR" property="ipAddr" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="method" jdbcType="VARCHAR" property="method" />
+    <result column="consumingTime" jdbcType="INTEGER" property="consumingTime" />
+    <result column="args" jdbcType="VARCHAR" property="args" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="endTime" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="error" jdbcType="VARCHAR" property="error" />
+    <result column="errorInfo" jdbcType="VARCHAR" property="errorInfo" />
+  </resultMap>
+
+  <!-- 日志列表查询 -->
+  <select id="selectSysLogList" resultType="com.wnn.system.domain.system.Syslog">
+    SELECT sl.* FROM `syslog` sl WHERE 1 =1
+    <if test="username!=null and username!=''">
+      AND sl.username like concat(concat('%',#{username}),'%')
+    </if>
+    <if test="result!=null and result!=''">
+      AND sl.result  = #{result}
+    </if>
+    <if test="ipAddr!=null and ipAddr!=''">
+      AND sl.ipAddr like concat(concat('%',#{ipAddr}),'%')
+    </if>
+    <if test="createTime!=null and createTime!=''">
+      AND sl.createTime &gt;=  #{createTime}
+    </if>
+    <if test="createTime!=null and createTime!=''">
+      AND sl.createTime &lt;= #{createTimeEnd}
+    </if>
+    ORDER BY sl.createTime DESC
+  </select>
+
+
+    <!-- select createTime,COUNT(*) as total from syslog
+    WHERE  createTime >='2020-12-11' and createTime <='2020-12-18'
+    group by date_format(createTime,'%d') ORDER BY createTime ASC; -->
+  <select id="selectList" resultType="java.util.HashMap">
+    select createTime,COUNT(*) as total from syslog
+    WHERE  createTime &gt;=#{small} and createTime &lt;= #{big}
+    group by date_format(createTime,'%d') ORDER BY createTime ASC;
+  </select>
+
+
+  <select id="selectHttpList" resultType="java.util.HashMap">
+    select *  from syslog
+    WHERE 1 = 1
+    <if test="small!=null">
+    and createTime &gt;=#{small}
+    </if>
+    <if test="big!=null">
+    and createTime &lt;= #{big}
+    </if>
+    <if test="url!=null">
+      and  url =   #{url}
+    </if>
+    <if test="result!=null">
+      and  result =  #{result}
+    </if>
+  </select>
+
+</mapper>

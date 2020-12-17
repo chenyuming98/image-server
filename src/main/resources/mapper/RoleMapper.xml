@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wnn.system.mapper.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.wnn.system.domain.system.Role">
+    <id column="roleId" jdbcType="VARCHAR" property="roleId" />
+    <result column="roleName" jdbcType="VARCHAR" property="roleName" />
+    <result column="roleCode" jdbcType="VARCHAR" property="roleCode" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <!-- collection role对多个perm集合，在RoleVo.java对象中配置属性collection -> List
+                , property对应java对象私有属性名称,resultMap指定的是java的Dao.java ，自动会根据perm的Id合并成list-->
+  <resultMap id="roleAndPermList" type="com.wnn.system.vo.RoleVo" extends="BaseResultMap">
+    <collection property="permissions"   resultMap="com.wnn.system.mapper.PermissionMapper.BaseResultMap"/>
+  </resultMap>
+
+  <!--  根据角色ID查找角色拥有的权限中间表 -->
+  <select id="findRoleAndPermList" resultType="com.wnn.system.domain.system.RolePerm">
+      SELECT*FROM role_perm ur WHERE 1=1
+      <if test="roleId !=null">
+        and  ur.roleId = #{roleId}
+      </if>
+      <if test="parentMenuId !=null">
+        and  ur.permId = #{parentMenuId}
+      </if>
+    </select>
+
+  <!-- 查询角色列表，包含权限-->
+  <select id="findRoleListByRoleIds" parameterType="arraylist" resultMap="roleAndPermList">
+    SELECT * FROM role r left JOIN role_perm rp on r.roleId = rp.roleId LEFT JOIN permission p on p.permissionId = rp.permId
+    where r.roleId in
+    <foreach collection="roles" item="r"  open="(" close=")" separator=",">
+      #{r.roleId}
+    </foreach>
+  </select>
+  <select id="selectRoleAll" resultType="com.wnn.system.vo.RoleVo">
+    select  * from  role
+  </select>
+
+  <!-- 根据用户ID查找角色Set列表 -->
+  <select id="selectRoleListByUserId" resultType="com.wnn.system.domain.system.Role">
+      select  r.* from  role r  left  join user_role ur on ur.roleId= r.roleId
+      where  ur.userId = #{userId}
+    </select>
+
+  <!--  批量分配 角色权限表 -->
+  <insert id="batchInsertRoleAndPerm">
+
+    INSERT INTO role_perm ( rolePermId, roleId, permId )
+    VALUES
+    <foreach collection="mapList" item="map" index="index" separator=",">
+      ( #{map.id} , #{roleId} , #{map.permId} )
+    </foreach>
+
+  </insert>
+
+  <!--  批量删除 角色权限表 -->
+  <delete id="batchDeleteRoleAndPerm">
+    DELETE FROM role_perm
+    WHERE roleId = #{roleId}
+
+    AND permId in
+    <foreach collection="ids" item="id"  open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </delete>
+
+</mapper>

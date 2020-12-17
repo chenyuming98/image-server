@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wnn.system.mapper.SvmMapper">
+  <resultMap id="BaseResultMap" type="com.wnn.system.domain.image.Svm">
+    <id column="svmId" jdbcType="VARCHAR" property="svmId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="info" jdbcType="VARCHAR" property="info" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="svmType" jdbcType="INTEGER" property="svmType" />
+    <result column="svmKernel" jdbcType="INTEGER" property="svmKernel" />
+    <result column="svmC" jdbcType="VARCHAR" property="svmC" />
+    <result column="winSizeX" jdbcType="INTEGER" property="winSizeX" />
+    <result column="winSizeY" jdbcType="INTEGER" property="winSizeY" />
+    <result column="blockSizeX" jdbcType="INTEGER" property="blockSizeX" />
+    <result column="blockSizeY" jdbcType="INTEGER" property="blockSizeY" />
+    <result column="blockStrideSizeX" jdbcType="INTEGER" property="blockStrideSizeX" />
+    <result column="blockStrideSizeY" jdbcType="INTEGER" property="blockStrideSizeY" />
+    <result column="cellSizeX" jdbcType="INTEGER" property="cellSizeX" />
+    <result column="cellSizeY" jdbcType="INTEGER" property="cellSizeY" />
+    <result column="countHogNum" jdbcType="INTEGER" property="countHogNum" />
+    <result column="dimension" jdbcType="INTEGER" property="dimension" />
+  </resultMap>
+
+  <select id="selectLastData" resultType="com.wnn.system.domain.image.Svm">
+    SELECT * FROM `svm` ORDER BY createTime desc LIMIT 1
+  </select>
+
+
+</mapper>

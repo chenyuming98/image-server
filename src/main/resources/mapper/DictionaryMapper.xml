@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wnn.system.mapper.DictionaryMapper">
+  <resultMap id="BaseResultMap" type="com.wnn.system.domain.system.Dictionary">
+    <id column="dictionaryId" jdbcType="VARCHAR" property="dictionaryId" />
+    <result column="dictionaryName" jdbcType="VARCHAR" property="dictionaryName" />
+    <result column="dictionaryCode" jdbcType="VARCHAR" property="dictionaryCode" />
+    <result column="dictionaryValue" jdbcType="VARCHAR" property="dictionaryValue" />
+    <result column="dictionaryParentId" jdbcType="VARCHAR" property="dictionaryParentId" />
+    <result column="dictionaryInfo" jdbcType="VARCHAR" property="dictionaryInfo"/>
+    <result column="systemCode" jdbcType="INTEGER" property="systemCode" />
+  </resultMap>
+  <!--  查询字典 返回包装类列表-->
+  <select id="selectDictionaryList" resultType="com.wnn.system.vo.DictionaryVo">
+    SELECT * FROM `dictionary`  d WHERE d.dictionaryParentId !="0"
+  </select>
+
+  <!--  查询字典一级菜单 返回包装类列表-->
+  <select id="selectDictionaryParentList" resultType="com.wnn.system.vo.DictionaryVo">
+      SELECT * FROM `dictionary`  d WHERE d.dictionaryParentId ="0" AND d.dictionaryId != "0"
+  </select>
+
+  <select id="findDictionaryByDbFiledAndValue" resultType="java.lang.String">
+    SELECT d.dictionaryName FROM `dictionary` d WHERE d.dictionaryCode = #{code}  and   d.dictionaryValue = #{value}
+  </select>
+
+
+</mapper>

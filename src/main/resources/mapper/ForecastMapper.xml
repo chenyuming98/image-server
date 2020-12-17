@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wnn.system.mapper.ForecastMapper">
+  <resultMap id="BaseResultMap" type="com.wnn.system.domain.image.Forecast">
+    <id column="id" jdbcType="VARCHAR" property="id"/>
+    <result column="fileName" jdbcType="VARCHAR" property="fileName" />
+    <result column="probability" jdbcType="VARCHAR" property="probability" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="label" jdbcType="VARCHAR" property="label" />
+    <result column="svmInfo" jdbcType="VARCHAR" property="svmInfo" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+
+
+
+
+</mapper>
