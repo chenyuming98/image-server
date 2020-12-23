@@ -1,7 +1,5 @@
 package com.wnn.system.service;
 
-
-import com.wnn.system.common.annotation.SysLog;
 import com.wnn.system.common.utils.CompletionDateUtils;
 import com.wnn.system.common.utils.ImageUtil;
 import com.wnn.system.domain.system.Syslog;

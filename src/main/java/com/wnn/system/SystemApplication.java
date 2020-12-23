@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * 用户系统项目程序启动类
- * scanBasePackages微服务扫描配置类范围包含 com.wnn.* 类下包范围
+ * scanBasePackages微服务扫描配置类范围包含 com.wnn.* 类下包范围1
  */
 @SpringBootApplication(scanBasePackages = "com.wnn.*")
 @MapperScan("com.wnn.system.mapper")
