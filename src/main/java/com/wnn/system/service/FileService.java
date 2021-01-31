@@ -3,7 +3,6 @@ package com.wnn.system.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wnn.system.common.utils.*;
-import com.wnn.system.config.TasksTimer;
 import com.wnn.system.domain.base.BaseResult;
 import com.wnn.system.domain.base.ResultCode;
 import com.wnn.system.domain.image.Forecast;
@@ -18,7 +17,6 @@ import com.wnn.system.vo.SvmVo;
 import org.opencv.core.Mat;
 import org.opencv.ml.Ml;
 import org.opencv.ml.SVM;
-import org.opencv.objdetect.HOGDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -157,7 +155,7 @@ public class FileService {
     }
 
     /**
-     * SVM训练
+     * SVM训练-并且生成SVM文件保存方便下次快速加载
      */
     public void trainSvm(SvmVo svmVo) {
         ImageUtil imageUtil = new ImageUtil();

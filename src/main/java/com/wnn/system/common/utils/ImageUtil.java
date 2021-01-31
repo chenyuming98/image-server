@@ -19,6 +19,10 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+
+/**
+ *  图像处理类
+ */
 public class ImageUtil {
 
     /**
@@ -26,7 +30,9 @@ public class ImageUtil {
      */
     private HashMap<String,Integer> labMap;
 
-
+    /**
+     * 设置标签类MAP
+     */
     public HashMap<String,Integer> setLabMap(HashMap<String,Integer> map) {
         return this.labMap = map;
     }
@@ -295,11 +301,14 @@ public class ImageUtil {
                     hogDescriptor.compute(img,descriptorsOfMat,blockStrideSize,new Size(0,0));
                     Mat reshape = descriptorsOfMat.reshape(0, 1);
                     float predict = svm.predict(reshape);
+                    int predict1 = (int) predict;
+                    String matchLab = intToStringLabMap.get(predict1);
                     //构造预测结果
                     Forecast forecast = new Forecast();
                     forecast.setCreateTime(date);
-                    forecast.setLabel(String.valueOf(predict));
-                    forecast.setClassification(replaceLab);
+                    forecast.setLabel(String.valueOf(matchFloat));//原始标签
+                    forecast.setScore(String.valueOf(predict1));//预测得分
+                    forecast.setClassification(matchLab); //根据预测得分得到的分类
                     forecast.setUrl(s);
                     forecasts.add(forecast);
                     if(matchFloat == predict){
@@ -348,7 +357,6 @@ public class ImageUtil {
     }
 
 
-
     /**
      *  SVM 预测图片
      */
@@ -379,7 +387,8 @@ public class ImageUtil {
             //构造预测结果
             Forecast forecast = new Forecast();
             forecast.setCreateTime(date);
-            forecast.setLabel(String.valueOf(predictFloat));
+//            forecast.setLabel(String.valueOf(predictFloat));
+            forecast.setScore(String.valueOf(predictInt));//预测得分
             forecast.setClassification(predictStr);
             forecast.setUrl(path);
             forecasts.add(forecast);
@@ -432,7 +441,6 @@ public class ImageUtil {
 
     @SneakyThrows
     public static void main(String[] args) {
-        IdWorker idWorker = new IdWorker();
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
     }

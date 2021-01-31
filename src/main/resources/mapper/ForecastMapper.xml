@@ -7,6 +7,7 @@
     <result column="probability" jdbcType="VARCHAR" property="probability" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="label" jdbcType="VARCHAR" property="label" />
+    <result column="score" jdbcType="VARCHAR" property="score" />
     <result column="svmInfo" jdbcType="VARCHAR" property="svmInfo" />
     <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>

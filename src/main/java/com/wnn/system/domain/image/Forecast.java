@@ -30,6 +30,8 @@ public class Forecast {
 
     private String label;
 
+    private String score;
+
     private String svmInfo;
 
     private Date createTime;
